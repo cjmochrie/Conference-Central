@@ -1,0 +1,24 @@
+
+2 Additional Queries:
+    - I created a general SessionQuery method similar to the ConferenceQuery method just with difference fields. It allows
+    filtering against the following fields: 'SPEAKER_NAME', 'DURATION', 'TYPE_OF_SESSION',
+    'START_TIME', 'LOCATION', 'WEBSAFE_CONFERENCE_KEY' (so you can search for all sessions at a given conference combined
+    with other queries).
+    - I also created a ConferencesBySpeaker method which returns all the conferences that a given speaker is speaking at.
+      (this did not require any indexing thanks to the ancestor relationships and stored Session keys).
+
+
+Query Problem:
+Let’s say that you don't like workshops and you don't like sessions after 7 pm. How would you handle a query for all
+non-workshop sessions before 7 pm? What is the problem for implementing this query? What ways to solve it did you think of?
+
+- The problem with this query is that it requires non-equality filters (sessions after 7pm, sessions that -aren't-
+workshops) on two different properties which is prohibited by the Datastore query methods.
+   https://cloud.google.com/appengine/docs/python/datastore/queries#Python_Restrictions_on_queries\
+
+- One possible solution is to convert one of the non-equality filters into an equality filter. For example, in the
+hypothetical case, run a query for sessions that are *equal* to all non-workshop session types, ie; lectures, discussions,
+ seminars etc. But that seems quite difficult to implement.
+
+ - Another method would be to query using the equality filter, then individually test each returned Session against
+ the inequality filter and returning all the sessions that satisfy the test.

@@ -1,0 +1,25 @@
+
+Design Choices Thoughts:
+
+I implemented two classes for task 1. Session and Speaker.
+
+The Session class contains all the relevant Session information including the name and email of the speaker (if he/she exits),
+and a websafe Key referring to the speaker.
+I also created protoRPC message classes for both Sessions and Speakers to pass the relevant information back and forth.
+
+Sessions are created by calling the api method createSession. Only users that created the conference where the session
+ is occurring can add sessions, and the only required field is name.
+ Users have the option of supplying a Speaker name and email, in which case a Speaker object will be created and a websafeKey
+ to refer to that Speaker as well.
+ Alternatively, if a Speaker is already 'in the system' he/she can be assigned to a session by providing a websafeSpeakerKey
+ upon the session's creation.
+
+ Speaker objects contain a name, email, websafeSpeakerKey, and list of keys to sessions they will speak at. That makes
+ searching for the sessions they will speak at trivial.
+
+ I felt this structure with several classes working together was more robust ie; I could do find all the sessions a speaker
+ is speaking at by looking through his/her keys directly in the object as opposed to running a query by property. However,
+ it was a huge hassle to set up and keeping all the different keys and websafe keys in my head was a nightmare.
+
+ Further down the line it would be necessary to make the API more user friendly and cut down on relying on websafe Keys.
+
