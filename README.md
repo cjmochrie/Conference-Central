@@ -1,3 +1,5 @@
+Part of an Udacity Nanodegree
+
 Conference Central Api extension
 By: Cameron Mochrie
 
